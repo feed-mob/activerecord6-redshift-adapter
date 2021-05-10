@@ -5,7 +5,10 @@ module ActiveRecord
         private
 
         def visit_ColumnDefinition(o)
-          super
+          o.sql_type = type_to_sql(o.type, **o.options)
+          column_sql = +"#{quote_column_name(o.name)} #{o.sql_type}"
+          add_column_options!(column_sql, column_options(o)) unless o.type == :primary_key
+          column_sql
         end
 
         def add_column_options!(sql, options)
@@ -426,7 +429,7 @@ module ActiveRecord
         # Maps logical Rails types to PostgreSQL-specific data types.
         def type_to_sql(type, limit: nil, precision: nil, scale: nil, **)
           case type.to_s
-          when 'integer'
+          when 'integer', 'int'
             return 'integer' unless limit
 
             case limit

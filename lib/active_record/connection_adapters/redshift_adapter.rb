@@ -77,13 +77,17 @@ module ActiveRecord
         primary_key: "bigint identity primary key",
         string:      { name: "varchar" },
         text:        { name: "varchar" },
+        varchar:     { name: "varchar" },
+        smallint:    { name: "smallint" },
+        int:         { name: "integer" },
         integer:     { name: "integer" },
+        bigint:      { name: "bigint" },
         float:       { name: "float" },
         decimal:     { name: "decimal" },
         datetime:    { name: "timestamp" },
+        timestamptz: { name: "timestamptz" },
         time:        { name: "time" },
         date:        { name: "date" },
-        bigint:      { name: "bigint" },
         boolean:     { name: "boolean" },
         serial:      { name: "integer" },
         bigserial:   { name: "bigint" },
@@ -350,10 +354,10 @@ module ActiveRecord
           }
         end
 
-        def initialize_type_map(m) # :nodoc:
-          register_class_with_limit m, 'int2', Type::Integer
-          register_class_with_limit m, 'int4', Type::Integer
-          register_class_with_limit m, 'int8', Type::Integer
+        def initialize_type_map(m = type_map) # :nodoc:
+          m.register_type "int2", Type::Integer.new(limit: 2)
+          m.register_type "int4", Type::Integer.new(limit: 4)
+          m.register_type "int8", Type::Integer.new(limit: 8)
           m.alias_type 'oid', 'int2'
           m.register_type 'float4', Type::Float.new
           m.alias_type 'float8', 'float4'
