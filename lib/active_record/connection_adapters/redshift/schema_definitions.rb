@@ -46,7 +46,7 @@ module ActiveRecord
         end
       end
 
-      class ColumnDefinition = Struct.new(:name, :type, :options, :sql_type) do
+      ColumnDefinition = Struct.new(:name, :type, :options, :sql_type) do
         def primary_key?
           options[:primary_key]
         end
