@@ -429,6 +429,10 @@ module ActiveRecord
         # Maps logical Rails types to PostgreSQL-specific data types.
         def type_to_sql(type, limit: nil, precision: nil, scale: nil, **)
           case type.to_s
+          when 'smallint'
+            return 'smallint'
+          when 'bigint'
+            return 'bigint'
           when 'integer', 'int'
             return 'integer' unless limit
 
