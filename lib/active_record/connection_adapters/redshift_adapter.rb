@@ -733,8 +733,8 @@ module ActiveRecord
           coder_class.new(oid: row["oid"].to_i, name: row["typname"])
         end
 
-        def create_table_definition(*args) # :nodoc:
-          Redshift::TableDefinition.new(self, *args)
+        def create_table_definition(name, **options) # :nodoc:
+          Redshift::TableDefinition.new(self, name, **options)
         end
     end
   end
