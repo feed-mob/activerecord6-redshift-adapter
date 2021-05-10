@@ -77,16 +77,20 @@ module ActiveRecord
         primary_key: "bigint identity primary key",
         string:      { name: "varchar" },
         text:        { name: "varchar" },
-        integer:     { name: "integer" },
+        varchar:     { name: "varchar" },
+        smallint:    { name: "smallint", limit: 2 },
+        int:         { name: "integer", limit: 4 },
+        integer:     { name: "integer", limit: 4 },
+        bigint:      { name: "bigint", limit: 8 },
         float:       { name: "float" },
         decimal:     { name: "decimal" },
         datetime:    { name: "timestamp" },
+        timestamptz: { name: "timestamptz" },
         time:        { name: "time" },
         date:        { name: "date" },
-        bigint:      { name: "bigint" },
         boolean:     { name: "boolean" },
-        serial:      { name: "integer" },
-        bigserial:   { name: "bigint" },
+        serial:      { name: "integer", limit: 4 },
+        bigserial:   { name: "bigint", limit: 8 },
       }
 
       OID = Redshift::OID #:nodoc:
@@ -350,10 +354,10 @@ module ActiveRecord
           }
         end
 
-        def initialize_type_map(m) # :nodoc:
-          register_class_with_limit m, 'int2', Type::Integer
-          register_class_with_limit m, 'int4', Type::Integer
-          register_class_with_limit m, 'int8', Type::Integer
+        def initialize_type_map(m = type_map) # :nodoc:
+          m.register_type "int2", Type::Integer.new(limit: 2)
+          m.register_type "int4", Type::Integer.new(limit: 4)
+          m.register_type "int8", Type::Integer.new(limit: 8)
           m.alias_type 'oid', 'int2'
           m.register_type 'float4', Type::Float.new
           m.alias_type 'float8', 'float4'
@@ -733,8 +737,8 @@ module ActiveRecord
           coder_class.new(oid: row["oid"].to_i, name: row["typname"])
         end
 
-        def create_table_definition(*args) # :nodoc:
-          Redshift::TableDefinition.new(self, *args)
+        def create_table_definition(name, **options) # :nodoc:
+          Redshift::TableDefinition.new(self, name, **options)
         end
     end
   end
