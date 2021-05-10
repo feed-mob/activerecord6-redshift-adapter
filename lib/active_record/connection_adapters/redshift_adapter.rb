@@ -78,10 +78,10 @@ module ActiveRecord
         string:      { name: "varchar" },
         text:        { name: "varchar" },
         varchar:     { name: "varchar" },
-        smallint:    { name: "smallint" },
-        int:         { name: "integer" },
-        integer:     { name: "integer" },
-        bigint:      { name: "bigint" },
+        smallint:    { name: "smallint", limit: 2 },
+        int:         { name: "integer", limit: 4 },
+        integer:     { name: "integer", limit: 4 },
+        bigint:      { name: "bigint", limit: 8 },
         float:       { name: "float" },
         decimal:     { name: "decimal" },
         datetime:    { name: "timestamp" },
@@ -89,8 +89,8 @@ module ActiveRecord
         time:        { name: "time" },
         date:        { name: "date" },
         boolean:     { name: "boolean" },
-        serial:      { name: "integer" },
-        bigserial:   { name: "bigint" },
+        serial:      { name: "integer", limit: 4 },
+        bigserial:   { name: "bigint", limit: 8 },
       }
 
       OID = Redshift::OID #:nodoc:
