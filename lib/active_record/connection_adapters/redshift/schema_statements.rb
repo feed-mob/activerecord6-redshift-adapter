@@ -203,7 +203,7 @@ module ActiveRecord
         end
 
         def new_column(name, default, sql_type_metadata = nil, null = true, table_name = nil, default_function = nil, auto_increment = nil) # :nodoc:
-          RedshiftColumn.new(name, default, sql_type_metadata, null, table_name, default_function, encoding, auto_increment)
+          RedshiftColumn.new(name, default, sql_type_metadata, null, table_name, default_function, auto_increment)
         end
 
         def table_options(table_name) # :nodoc:
