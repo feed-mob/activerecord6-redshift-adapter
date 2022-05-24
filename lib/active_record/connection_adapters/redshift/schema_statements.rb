@@ -191,18 +191,18 @@ module ActiveRecord
 
         # Returns the list of all column definitions for a table.
         def columns(table_name)
-          column_definitions(table_name.to_s).map do |column_name, type, default, notnull, oid, fmod, encoding|
+          column_definitions(table_name.to_s).map do |column_name, type, default, notnull, oid, fmod|
             default_value = extract_value_from_default(default)
             type_metadata = fetch_type_metadata(column_name, type, oid, fmod)
             default_function = extract_default_function(default_value, default)
             null_constraint = (notnull == false or notnull == "f")
 
             auto_increment = "true" if (default and default.include?("identity")) or (default_value and default_value.include?("identity"))
-            new_column(column_name, default_value, type_metadata, null_constraint, table_name, default_function, encoding, auto_increment)
+            new_column(column_name, default_value, type_metadata, null_constraint, table_name, default_function, auto_increment)
           end
         end
 
-        def new_column(name, default, sql_type_metadata = nil, null = true, table_name = nil, default_function = nil, encoding = nil, auto_increment = nil) # :nodoc:
+        def new_column(name, default, sql_type_metadata = nil, null = true, table_name = nil, default_function = nil, auto_increment = nil) # :nodoc:
           RedshiftColumn.new(name, default, sql_type_metadata, null, table_name, default_function, encoding, auto_increment)
         end
 

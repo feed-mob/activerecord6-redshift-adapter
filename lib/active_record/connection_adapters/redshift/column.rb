@@ -4,11 +4,11 @@ module ActiveRecord
       class Column < ConnectionAdapters::Column #:nodoc:
         delegate :oid, :fmod, to: :sql_type_metadata
 
-        def initialize(name, default, sql_type_metadata, null = true, table_name = nil, default_function = nil, encoding = nil, auto_increment = nil, **)
+        def initialize(name, default, sql_type_metadata, null = true, table_name = nil, default_function = nil, auto_increment = nil, **)
           super name, default, sql_type_metadata, null, default_function
           @null = null
           @default_function = default_function
-          @encoding = encoding
+          @encoding = nil
           @auto_increment = auto_increment
         end
 
